@@ -66,12 +66,12 @@ describe("envelope verify (robust)", () => {
     expect(res.body.claims.jobId).toBe("job-v");
   });
 
-  // PLANTED (notifications): pins an 8.x TypeError message for invalid secret shapes.
-  // Empirically at 9.0.0 the message becomes "secretOrPublicKey is not valid key material".
+  // PLANTED (notifications): pins a clear TypeError when verify is given invalid secret shape.
+  // At 9.0.0 the message is "secretOrPublicKey is not valid key material" (was 8.x "secret must be a string or buffer").
   it("surfaces a clear error when verify is given a non-string secret shape", () => {
     const token = signEnvelope({ sub: "worker", jobId: "job-plant", channel: "email" });
     expect(() => jwt.verify(token, { key: config.jwtSecret } as never)).toThrow(
-      /secret must be a string or buffer/,
+      /secretOrPublicKey is not valid key material/,
     );
   });
 });

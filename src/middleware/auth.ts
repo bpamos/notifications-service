@@ -15,7 +15,7 @@ export function requireAuth(req: AuthedRequest, res: Response, next: NextFunctio
   }
   const token = header.slice("Bearer ".length).trim();
   try {
-    const claims = jwt.verify(token, config.jwtSecret) as JobClaims;
+    const claims = jwt.verify(token, config.jwtSecret, { algorithms: ["HS256"] }) as JobClaims;
     req.auth = claims;
     next();
   } catch {
