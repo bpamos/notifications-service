@@ -7,5 +7,5 @@ export function signEnvelope(claims: Omit<JobClaims, "iat" | "exp">, expiresIn: 
 }
 
 export function verifyEnvelope(token: string): JobClaims {
-  return jwt.verify(token, config.jwtSecret) as JobClaims;
+  return jwt.verify(token, config.jwtSecret, { algorithms: ["HS256"] }) as JobClaims;
 }
